@@ -3,23 +3,24 @@ namespace Simple_Pay.Models;
 
 public class Client
 {
-    
-    public Client(string firsrname, string lastname, string cpfOrCnpj,int userPassword, string email) 
+   
+    public Client(string firsrname, string lastname, string cpfOrCnpj, string email, int userPassword, string tipeOfClient) 
     {
         FirstName = firsrname;
         LastName = lastname;
         CpfOrcnpj = cpfOrCnpj;
         UserPassword = userPassword;
-        //TypeOfClient = CpfOrcnpj.CheckTypeIdentifier();
+        TypeOfClient = tipeOfClient;
         Email = email;
+        
     }
-    public string CpfOrcnpj;
+    public string CpfOrcnpj {  get; set; }
     public int UserPassword { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
-    public string TypeOfClient { get; set; }
-
+    public  string TypeOfClient { get; set; }
+    public Account Account { get; set; }
     public void DisplaClientInformation()
     {
 
@@ -29,6 +30,8 @@ public class Client
         Console.WriteLine($"Email: {Email}");
         Console.WriteLine($"Client: {TypeOfClient}");
         Console.WriteLine($"\n=======================================================");
+        Console.ReadKey();
+        new Atendimento().MenuInicial();
 
     }
 }

@@ -1,15 +1,14 @@
 ﻿namespace Simple_Pay.Models;
 public class Account
 {
-    public Account(Client client)
+    public Account(int accountID)
     {
         
-        HolderInf = client;
-        AccountId =  new Random().Next();
+        
+        AccountId =  accountID;
         Balance = 0;
     }
 
-    public Client HolderInf { get;  }
     public int AccountId { get;  }
     public int Balance { get; set; }
     
@@ -20,8 +19,12 @@ public class Account
             Balance = Balance - tranferValue;
             
             Transaction transaction  = new(tranferValue, AccountId, destAccount);
-            
-            
+            if (!transaction.ExecTrasaction())
+            {
+                Balance = Balance + tranferValue;
+                return;
+            }
+            Console.WriteLine("Trasação realizada com sucesso");
         }
 
 
@@ -31,14 +34,11 @@ public class Account
     {
         Console.WriteLine($"Saldo em conta: {Balance}");
     }
-
     public void DisplayAccountInf()
     {
         Console.WriteLine($"=====================    Conta    =====================");
         Console.WriteLine($"                       {AccountId}                     ");
         Console.WriteLine($"=======================================================\n");
-        Console.WriteLine($"Nome do titular: {HolderInf.FirstName} {HolderInf.LastName}");
-        Console.WriteLine($"Cpf/Cnpj do  Titular: {HolderInf.CpfOrcnpj}");
         Console.WriteLine($"Saldo disponivel: {Balance}");
         Console.WriteLine($"\n=======================================================");
     }

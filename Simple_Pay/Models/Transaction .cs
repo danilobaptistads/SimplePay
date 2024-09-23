@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Simple_Pay.Utils;
+using System.Net;
 
 namespace Simple_Pay.Models;
 
@@ -15,25 +16,30 @@ public class Transaction
         TransactionOrigAccount = origAccount;
         TransactionDestnAccount = destAccount;
     }
-
-    
-    public void ExecTrasaction()
-    {
+       
+    public bool ExecTrasaction()
+    {   
         if (ValidateTrasacion()) 
         {  
-
-            
+            //Data data = new Data();
+            //Account dstaccount = data.GetAccountByid(TransactionDestnAccount);
+            //dstaccount.Balance = dstaccount.Balance + TransactionValue;
+            return true;
            
         }
-        
+        return false;
           
     }
 
     private bool ValidateTrasacion() 
     {  
-        return true; 
+        //Data data = new Data();
+        //if (data.GetAccountByid(TransactionDestnAccount) != null)
+        //{
+        //    return true;
+        //}
+        return false;
     }
-
 
     
 }
