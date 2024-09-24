@@ -1,4 +1,4 @@
-﻿
+﻿using Simple_Pay.Models;
 namespace Simple_Pay.Utils;
 internal class Validation
 {
@@ -130,13 +130,23 @@ internal class Validation
     }
     public bool Access (string NIdentifier, int pass)
     {
-       // Client client =  new Data().GetClient(NIdentifier);
-        //if (client.UserPassword == pass)
-        //{
-        //    Console.WriteLine($"SEnha no banco{client.UserPassword}");
-        //    Console.WriteLine($"senha digitada{pass}");
-        //    return true;
-        //}
+        Client client = Data.GetClientById(NIdentifier);
+        if (client.UserPassword == pass)
+        {
+            Console.WriteLine($"SEnha no banco{client.UserPassword}");
+            Console.WriteLine($"senha digitada{pass}");
+            return true;
+        }
+        Console.WriteLine("Usuário ou senha icorreto");
+        return false;
+    }
+
+    public bool ValidationTypeOfUser(string typeOfUser)
+    {
+        if (typeOfUser == "PF")
+        {
+            return true;
+        }
         return false;
     }
 }

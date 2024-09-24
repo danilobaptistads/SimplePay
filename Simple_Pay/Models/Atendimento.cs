@@ -6,7 +6,7 @@ namespace Simple_Pay.Models;
 public class Atendimento
 {
      
-     Validation validation = new Validation();
+    Validation validation = new Validation();
     public void MenuInicial()
     {
         Console.Clear();
@@ -25,14 +25,14 @@ public class Atendimento
                 Register();
                 break;
             case 2:
-               // AccountTranfer();
+                AccountTranfer();
                 break;
             
                 
         }   
 
     }
-    private async void Register()
+    private void Register()
     {
         Console.Clear();
         Console.WriteLine("=========== Cadastro ===========\n");
@@ -78,30 +78,38 @@ public class Atendimento
 
         Console.WriteLine($"Usuario {firstName}, criado com sucesso");
         Console.ReadKey();
-        //File.AppendAllText("dbContas.json",serializeAccont);
 
 
 
         MenuInicial();
 
     }
-//    private void AccountTranfer()
-//    {
-//        Console.Write("Entre com seu Cpf/Cnpj");
-//        string nIdentifier = Console.ReadLine();
-//        Console.Write("Entre com seu Cpf/Cnpj");
-//        int pass = int.Parse(Console.ReadLine());
+    private void AccountTranfer()
+    {
+        Console.Clear();
+        Console.Write("Entre com seu Cpf/Cnpj: ");
+        string nIdentifier = Console.ReadLine();
+        Console.Write("Sua senha: ");
+        int pass = int.Parse(Console.ReadLine());
 
-//        var userValidation = validation.Access(nIdentifier, pass);
-//        if (userValidation)
-//        {
-//            Console.WriteLine("Conta de destino");
-//            int dstAccount = int.Parse(Console.ReadLine());
-//            Console.WriteLine("Qual valor deseja tranferir");
-//            int value = int.Parse(Console.ReadLine());
-//            //Client user = data.GetClient(nIdentifier);
-//            //Account account = data.GetAccount(user.CpfOrcnpj);
-//            ;//account.Transfer(value,dstAccount,user.TypeOfClient);
-//        }
-//    }
+        var userValidation = validation.Access(nIdentifier, pass);
+        if (userValidation)
+        {
+            Client client = Data.GetClientById(nIdentifier);
+            if (validation.ValidationTypeOfUser(client.TypeOfClient))
+            {
+                Console.Clear();
+                Console.WriteLine("Bem vindo!");
+
+                Console.WriteLine("Qual valor deseja tranferir");
+                int value = int.Parse(Console.ReadLine());
+                Console.WriteLine("Conta de destino");
+                int dstAccount = int.Parse(Console.ReadLine());
+
+                client.Account.Transfer(value, dstAccount, client.TypeOfClient);
+                return;
+            }
+            Console.WriteLine("Apenas Pessoas físicas podem realizar transferencias");
+        }
+    }
 }

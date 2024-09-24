@@ -1,4 +1,5 @@
-﻿namespace Simple_Pay.Models;
+﻿using Simple_Pay.Utils;
+namespace Simple_Pay.Models;
 public class Account
 {
     public Account(int accountID)
@@ -8,28 +9,48 @@ public class Account
         AccountId =  accountID;
         Balance = 0;
     }
-
     public int AccountId { get;  }
     public int Balance { get; set; }
     
     public void Transfer(int tranferValue, int destAccount, string accountType)
     {
-        if (((Balance - tranferValue) >= 0) && (accountType == "Pf"))
+
+        if (accountType == "PF") 
         {
-            Balance = Balance - tranferValue;
-            
-            Transaction transaction  = new(tranferValue, AccountId, destAccount);
-            if (!transaction.ExecTrasaction())
+            if ((Balance -= tranferValue) >= 0)
             {
-                Balance = Balance + tranferValue;
+
+                Transaction transaction = new(tranferValue, AccountId, destAccount);
+                
+                if (transaction.ExecTrasaction())
+                {
+                    
+                    transaction.TransactionStatus = "Sussecs";
+                    //Data.GetAccountByid(AccountId);
+                   
+                    Console.WriteLine("Trasação realizada com sucesso");
+                    Data.SaveNewBAlance(AccountId, Balance);
+                    Data.RegisterTrasaction("dbTransactions.json", transaction);
+
+                    return;
+                }
+                Console.WriteLine("Não foi possivel realizar a transação");
+                Balance = Balance += tranferValue;
+                transaction.TransactionStatus = "Fail";
+                Data.RegisterTrasaction("dbTransactions.json", transaction);
                 return;
             }
-            Console.WriteLine("Trasação realizada com sucesso");
+            Console.WriteLine("Saldo insuficiente");
+            return;
+            
         }
-
-
     }
 
+    public void Deposit(int value) 
+    {
+        Balance += value;
+        Data.SaveNewBAlance(AccountId, Balance);
+    }
     public void CheckAccountbalance()
     {
         Console.WriteLine($"Saldo em conta: {Balance}");
