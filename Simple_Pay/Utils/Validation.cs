@@ -1,4 +1,5 @@
-﻿using Simple_Pay.Models;
+﻿using Newtonsoft.Json;
+using Simple_Pay.Models;
 namespace Simple_Pay.Utils;
 internal class Validation
 {
@@ -140,7 +141,6 @@ internal class Validation
         Console.WriteLine("Usuário ou senha icorreto");
         return false;
     }
-
     public bool ValidationTypeOfUser(string typeOfUser)
     {
         if (typeOfUser == "PF")
@@ -148,6 +148,29 @@ internal class Validation
             return true;
         }
         return false;
+    }
+
+    public bool EmailIsUnique(string email)
+    {
+        string desserializedJson = File.ReadAllText("dbContas.json");
+        List<Client> listAccounts = JsonConvert.DeserializeObject<List<Client>>(desserializedJson);
+
+        if (listAccounts != null)
+        {
+            for (int i = 0; i < listAccounts.Count; i++)
+            {
+                Client client = listAccounts[i];
+
+                if (email == client.Email)
+                {
+                    Console.WriteLine("Email já cadastrado");
+                    return false;
+
+                }
+
+            }
+        }
+        return true;
     }
 }
 

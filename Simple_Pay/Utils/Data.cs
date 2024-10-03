@@ -25,7 +25,6 @@ internal class Data
             File.WriteAllText(file, serializeObject);
         }
     }
-
     public static void RegisterTrasaction(string file, Transaction newTransaction)
     {
         string desserializedJson = File.ReadAllText(file);
@@ -46,7 +45,6 @@ internal class Data
             File.WriteAllText(file, serializeObject);
         }
     }
-
     public static Client GetClientById(string NIdentifier)
     {
         string desserializedJson = File.ReadAllText("dbContas.json");
@@ -67,7 +65,6 @@ internal class Data
         }
         return null;
     }
-    
     public static Account GetAccountByid(int naccount)
     {
         string desserializedJson = File.ReadAllText("dbContas.json");
@@ -88,7 +85,6 @@ internal class Data
         }
         return null;
     }
-
     public static void SaveNewBAlance(int nAccount, int newBalance)
     {
         string desserializedJson = File.ReadAllText("dbContas.json");
@@ -109,6 +105,7 @@ internal class Data
         }
 
     }
+
 }
 
 

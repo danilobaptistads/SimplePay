@@ -41,6 +41,7 @@ public class Atendimento
         Console.Write("Sobrenome Nome ");
         string laststName = Console.ReadLine();
         string identifier;
+        string email;
         string tipeOfClient;
         bool doControler = false;
         do
@@ -57,14 +58,19 @@ public class Atendimento
                     doControler = validation.checkCnpj(identifier);
                     break;
                 default:
-                    Console.WriteLine("Número dentificador invalido");
+                    Console.WriteLine("Número identificador invalido");
                     break;
             }
-
+           
         } while (!doControler);
         
-        Console.Write("Email: ");
-        string email = Console.ReadLine();
+        do
+        {
+            Console.Write("Email: ");
+            email = Console.ReadLine();
+            doControler = validation.EmailIsUnique(email);
+        } while (!doControler);
+        
         Console.Write("Entre com uma senha de 6 digitos: ");
         int userPassword = int.Parse(Console.ReadLine());
 
